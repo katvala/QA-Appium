@@ -1,6 +1,5 @@
 package com.nttdata.stepsdefinitions;
 
-import com.nttdata.steps.SauceLabsLoginSteps;
 import com.nttdata.steps.SauceLabsSteps;
 import com.nttdata.support.ScreenshotAttacher;
 import io.cucumber.java.Before;

@@ -3,6 +3,7 @@ package com.nttdata.screens;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -44,7 +45,8 @@ public class SauceLabsScreen {
 
         deslizarHastaBotonAgregar();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(CANTIDAD_PRODUCTO));
+        try{
+                wait.until(ExpectedConditions.visibilityOfElementLocated(CANTIDAD_PRODUCTO));
 
         for (int i = 1; i < unidades; i++) {
             wait.until(
@@ -59,6 +61,17 @@ public class SauceLabsScreen {
         wait.until(
                 ExpectedConditions.elementToBeClickable(BOTON_AGREGAR_CARRITO)
         ).click();
+        } catch (TimeoutException e) {
+
+                System.err.println(
+                        "[ERROR TECNICO] " + e.getMessage()
+                );
+
+                throw new AssertionError(
+                        "No fue posible completar la operación con el producto. " +
+                        "La aplicación dejó de responder durante la interacción."
+                );
+         }
     }
 
     private void deslizarHastaBotonAgregar() {
@@ -78,15 +91,29 @@ public class SauceLabsScreen {
     }
 
     public boolean validarCarrito(int unidades) {
-        AndroidDriver driver = AppConfigScreen.getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
+    AndroidDriver driver = AppConfigScreen.getDriver();
+    WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
 
+    try {
         return wait.until(
                 ExpectedConditions.textToBe(
                         CANTIDAD_CARRITO,
                         String.valueOf(unidades)
                 )
         );
+
+    } catch (TimeoutException e) {
+
+        String cantidadActual = driver
+                .findElement(CANTIDAD_CARRITO)
+                .getText();
+
+        throw new AssertionError(
+                "Validación de carrito fallida. " +
+                "Cantidad esperada: " + unidades +
+                ". Cantidad obtenida: " + cantidadActual
+        );
     }
+}
 
 }
