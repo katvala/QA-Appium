@@ -3,8 +3,14 @@
 @AddItems
 Característica: Validar funcionalidad del carrito de compras
 
-  Escenario: Agregar una mochila al carrito
+  Esquema del escenario: Validar producto agregado al carrito
     Dado ingreso al aplicativo "SauceLabs"
     Y valido que carguen correctamente los productos en la galeria
-    Cuando agrego 1 del siguiente producto "Sauce Labs Backpack"
+    Cuando agrego <UNIDADES> del siguiente producto "<PRODUCTO>"
     Entonces valido el carrito de compra actualice correctamente
+
+    Ejemplos:
+      | PRODUCTO                  | UNIDADES |
+      | Sauce Labs Backpack       | 1        |
+      | Sauce Labs Bolt T-Shirt   | 1        |
+      | Sauce Labs Bike Light     | 2        |

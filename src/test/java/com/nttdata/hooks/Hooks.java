@@ -1,5 +1,6 @@
 package com.nttdata.hooks;
 
+import com.nttdata.steps.AppConfigSteps;
 import com.nttdata.support.ScreenshotAttacher;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -11,6 +12,7 @@ import io.cucumber.java.Scenario;
  * aprendiz sobre en que punto va la ejecucion.
  */
 public class Hooks {
+    private final AppConfigSteps appConfigSteps = new AppConfigSteps();
 
     @Before
     public void antesDelEscenario(Scenario scenario) {
@@ -25,6 +27,12 @@ public class Hooks {
         System.out.println("[Hooks] Escenario '" + scenario.getName() + "' finalizo: " + estado);
 
         String nombreEvidencia = scenario.isFailed() ? "Estado final (FALLO)" : "Estado final";
+
         ScreenshotAttacher.attach(scenario, nombreEvidencia);
+
+        if (scenario.getSourceTagNames().contains("@AddItems")) {
+            appConfigSteps.cerrarAplicacion("com.saucelabs.mydemoapp.android");
+        }
+
     }
 }
