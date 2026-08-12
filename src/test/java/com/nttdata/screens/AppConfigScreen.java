@@ -154,6 +154,7 @@ public class AppConfigScreen {
         options.setApp(obtenerObligatorio(properties, "app"));
         options.setAppPackage(obtenerObligatorio(properties, "appPackage"));
         options.setAppActivity(obtenerObligatorio(properties, "appActivity"));
+        options.setAppWaitActivity(obtenerObligatorio(properties, "appWaitActivity"));
         options.setNoReset(Boolean.parseBoolean(properties.getProperty("noReset", "true")));
         options.setAutoGrantPermissions(Boolean.parseBoolean(properties.getProperty("autoGrantPermissions", "true")));
 
